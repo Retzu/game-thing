@@ -4,6 +4,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
 var connect = require('gulp-connect');
+var coffee = require('gulp-coffee');
 
 gulp.task('js', function() {
     gulp.src('devel/js/*.js')
@@ -12,6 +13,15 @@ gulp.task('js', function() {
         .pipe(gulp.dest('public/js/'))
         .pipe(connect.reload());
 });
+
+gulp.task('coffee', function() {
+    gulp.src('devel/js/*.coffee')
+        .pipe(coffee())
+        .pipe(concat('main2.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('public/js/'))
+        .pipe(connect.reload());
+})
 
 gulp.task('bower-files', function(){
     return gulp.src(mainBowerFiles())
@@ -25,6 +35,7 @@ gulp.task('watch', function() {
 
 gulp.task('server', function() {
     gulp.start('js');
+    gulp.start('coffee')
     connect.server({
        root: 'public',
        livereload: true
@@ -32,4 +43,4 @@ gulp.task('server', function() {
     gulp.start('watch');
 });
 
-gulp.task('default', ['bower-files', 'js']);
+gulp.task('default', ['bower-files', 'js', 'coffee']);
