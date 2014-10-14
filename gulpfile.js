@@ -25,7 +25,6 @@ gulp.task('watch', function() {
 
 gulp.task('server', function() {
     gulp.start('js');
-    gulp.start('coffee')
     connect.server({
        root: 'public',
        livereload: true
@@ -33,4 +32,4 @@ gulp.task('server', function() {
     gulp.start('watch');
 });
 
-gulp.task('default', ['bower-files', 'js', 'coffee']);
+gulp.task('default', ['bower-files', 'js']);
