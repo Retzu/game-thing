@@ -33,7 +33,7 @@ var options = {
 window.OPTIONS = options;
 
 requirejs.config({
-	baseUrl: 'js/scripts'
+    baseUrl: 'js/scripts'
 });
 
 require(['game']);

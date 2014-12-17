@@ -1,2 +1,2 @@
 define ['moving-entity'], (MovingEntity) ->
-	class Collectible extends MovingEntity
+    class Collectible extends MovingEntity
