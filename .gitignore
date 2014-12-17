@@ -2,6 +2,6 @@
 bower_components
 node_modules
 dist
-!dist/img/
+!dist/img/*
 *.log
 *.db
