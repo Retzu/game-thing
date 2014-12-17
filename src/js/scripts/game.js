@@ -1,68 +1,32 @@
-(function() {
-    "use strict";
+function init(Background, Player){
+    var stage = new PIXI.Stage(0x000000),
+        gameContainer = document.getElementById('game'),
+        renderer = PIXI.autoDetectRenderer(options.stage.width, options.stage.height);
 
-    var options = {
-        scrollSpeed: 1.5,
-        playerSpeed: 5,
-        stage: {
-            width: 540,
-            height: 860
-        },
-        sprites: {
-            background: {
-                source: "img/background.png",
-                width: 540,
-                height: 960
-            },
-            player: {
-                source: "img/player.png",
-                width: 50,
-                height: 52
-            },
-            enemy: {
-                source: ""
-            },
-            projectile: {
-                source: ""
-            },
-            collectible: {
-                source: ""
-            }
-        }
-    };
+    gameContainer.appendChild(renderer.view);
 
-    window.OPTIONS = options;
+    requestAnimFrame(render);
 
-    function init(Background, Player){
-        var stage = new PIXI.Stage(0x000000),
-            gameContainer = document.getElementById('game'),
-            renderer = PIXI.autoDetectRenderer(options.stage.width, options.stage.height);
+    var background = new Background(options.sprites.background);
+    var player = new Player(options.sprites.player);
 
-        gameContainer.appendChild(renderer.view);
+    stage.addChild(background);
+    stage.addChild(player);
 
-        requestAnimFrame(render);
+    kd.LEFT.down(player.moveLeft);
+    kd.RIGHT.down(player.moveRight);
 
-        var background = new Background(options.sprites.background);
-        var player = new Player(options.sprites.player);
+    function render() {
+        kd.tick();
 
-        stage.addChild(background);
-        stage.addChild(player);
-
-        kd.LEFT.down(player.moveLeft);
-        kd.RIGHT.down(player.moveRight);
-
-        function render() {
-            kd.tick();
-
-            background.update();
-            player.update();
-
-            renderer.render(stage);
-            requestAnimFrame(render);
-        }
+        background.update();
+        player.update();
 
         renderer.render(stage);
+        requestAnimFrame(render);
     }
 
-    require(['background', 'player'], init);
-})();
+    renderer.render(stage);
+}
+
+require(['background', 'player'], init);
