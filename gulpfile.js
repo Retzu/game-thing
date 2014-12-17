@@ -11,31 +11,44 @@ var autoprefixer = require('autoprefixer-core');
 var sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('js', function() {
-    gulp.src('src/js/*.js')
+    // this is the main RequireJS file that will be included in index.html
+    gulp.src('src/js/main.js')
         .pipe(sourcemaps.init())
-        .pipe(concat('game.js'))
+        .pipe(uglify().on('error', function(e) {
+                console.log('Error compiling JavaScript:')
+                console.log('\x07',e.message);
+                return this.end();
+            }))
+        .pipe(sourcemaps.write('scripts/maps'))
+        .pipe(gulp.dest('dist/js'))
+
+    // now uglify all scripts
+    gulp.src('src/js/scripts/*.js')
+        .pipe(sourcemaps.init())
         .pipe(uglify().on('error', function(e) {
                 console.log('Error compiling JavaScript:')
                 console.log('\x07',e.message);
                 return this.end();
             }))
         .pipe(sourcemaps.write('maps'))
-        .pipe(gulp.dest('dist/js/'))
+        .pipe(gulp.dest('dist/js/scripts/'))
+        .pipe(connect.reload());
+
+    // same for coffeescript files
+    gulp.src('src/js/scripts/*.coffee')
+        .pipe(sourcemaps.init())
+        .pipe(coffee({
+            bare: true
+        }))
+        .pipe(uglify().on('error', function(e) {
+                console.log('Error compiling JavaScript:')
+                console.log('\x07',e.message);
+                return this.end();
+            }))
+        .pipe(sourcemaps.write('maps'))
+        .pipe(gulp.dest('dist/js/scripts/'))
         .pipe(connect.reload());
 });
-
-gulp.task('coffee', function () {
-    gulp.src('src/coffee/*.coffee')
-        .pipe(sourcemaps.init())
-        .pipe(concat('main.coffee'))
-        .pipe(coffee({
-            bare: true,
-        }))
-        .pipe(uglify())
-        .pipe(sourcemaps.write('maps'))
-        .pipe(gulp.dest('dist/js/'))
-        .pipe(connect.reload());
-})
 
 gulp.task('scss', function() {
     gulp.src('src/scss/*.scss')
@@ -60,8 +73,7 @@ gulp.task('bower-files', function(){
 });
 
 gulp.task('watch', function() {
-    gulp.watch('src/js/*.js', ['js']);
-    gulp.watch('src/coffee/*.coffee', ['coffee']);
+    gulp.watch('src/js/**/*', ['js']);
     gulp.watch('src/scss/*.scss', ['scss']);
     gulp.watch('src/index.html', ['html']);
 });
@@ -75,4 +87,4 @@ gulp.task('server', function() {
     gulp.start('watch');
 });
 
-gulp.task('default', ['bower-files', 'coffee', 'js', 'scss', 'html']);
+gulp.task('default', ['bower-files', 'js', 'scss', 'html']);

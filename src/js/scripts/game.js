@@ -1,8 +1,6 @@
 (function() {
     "use strict";
 
-    window.addEventListener('load', init);
-
     var options = {
         scrollSpeed: 1.5,
         playerSpeed: 5,
@@ -35,7 +33,7 @@
 
     window.OPTIONS = options;
 
-    function init(){
+    function init(Background, Player){
         var stage = new PIXI.Stage(0x000000),
             gameContainer = document.getElementById('game'),
             renderer = PIXI.autoDetectRenderer(options.stage.width, options.stage.height);
@@ -65,4 +63,6 @@
 
         renderer.render(stage);
     }
+
+    require(['background', 'player'], init);
 })();
