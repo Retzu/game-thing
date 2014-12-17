@@ -19,7 +19,7 @@ function init(Background, Player, Enemy, Collectible){
     var now = new Date();
 
     var fpsText = new PIXI.Text("0", {
-        font: "24px monospace"
+        font: "16px monospace"
     });
     fpsText.position.x = 10;
     fpsText.position.y = 10;
@@ -28,36 +28,74 @@ function init(Background, Player, Enemy, Collectible){
     enemies = [];
     collectibles = [];
 
+    gameOver = false;
+
+    score = 0;
+
     function render() {
         var dt = new Date() - now;
         now = new Date();
         kd.tick();
 
-        fpsText.setText('FPS:' + Math.floor(1000 / dt) + ' / E:' + enemies.length + ' / C:' + collectibles.length);
+        fpsText.setText('FPS:' + Math.floor(1000 / dt) + ' / E:' + enemies.length + ' / C:' + collectibles.length + ' / S:' + score);
 
         background.update(dt);
         player.update(dt);
 
         enemies.forEach(function(enemy) {
             enemy.update(dt);
+
+            // if player collides with an enemy
+            if (enemy.isCollidingWith(player)) {
+                // events!
+                gameOver = true;
+            }
+
             // remove enemies that are out of sight
             if (enemy.y > OPTIONS.stage.height + OPTIONS.sprites.enemy.height + 100) {
-                var index = enemies.indexOf(enemy);
-                enemies.splice(index, 1);
+                removeEnemy(enemy);
             }
         });
 
         collectibles.forEach(function(collectible) {
             collectible.update(dt);
+
+            // make them collectable
+            if (collectible.isCollidingWith(player)) {
+                score++;
+                removeCollectible(collectible);
+            }
+
             // remove collectibles that are out of sight
             if (collectible.y > OPTIONS.stage.height + OPTIONS.sprites.collectible.height + 100) {
-                var index = collectibles.indexOf(collectible);
-                collectibles.splice(index, 1);
+                removeCollectible(collectible);
             }
         });
 
         renderer.render(stage);
-        requestAnimFrame(render);
+
+        // do thing with events...jeeeez
+        if (!gameOver) {
+            requestAnimFrame(render);
+        } else {
+            renderGameOver();
+        }
+    }
+
+    function renderGameOver() {
+        var gameOverText = new PIXI.Text('Game over!', {
+            font: "70px monospace"
+        });
+
+        gameOverText.position.x = (OPTIONS.stage.width / 2) - gameOverText.width / 2;
+        gameOverText.position.y = (OPTIONS.stage.height / 2) - gameOverText.height / 2;
+
+        console.log((OPTIONS.stage.width / 2) - gameOverText.width);
+
+        stage.addChild(gameOverText);
+        renderer.render(stage);
+
+        //requestAnimFrame(renderGameOver);
     }
 
     window.setInterval(function() {
@@ -89,6 +127,18 @@ function init(Background, Player, Enemy, Collectible){
         collectibles.push(collectible);
         stage.addChild(collectible);
         console.log('number of collectibles: '+ collectibles.length);
+    }
+
+    function removeEnemy(enemy) {
+        var index = enemies.indexOf(enemy);
+        enemies.splice(index, 1);
+        stage.removeChild(enemy);
+    }
+
+    function removeCollectible(collectible) {
+        var index = collectibles.indexOf(collectible);
+        collectibles.splice(index, 1);
+        stage.removeChild(collectible);
     }
 }
 

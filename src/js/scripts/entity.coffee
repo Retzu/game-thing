@@ -13,3 +13,12 @@ define ->
 
 	    update: (dt) =>
 	    	@speedFactor = 1000 / dt / 60
+
+
+    	isCollidingWith: (other) =>
+    		not (
+    				other.position.x > (@position.x + @width)       or
+    				(other.position.x + other.width) < @position.x  or
+    				other.position.y > (@position.y + @height)      or
+    				(other.position.y + other.height) < @position.y
+    			)
