@@ -1,8 +1,8 @@
 {
   "name": "game-thing",
-  "version": "0.0.1",
-  "license": "GPLv3",
-  "private": true,
+  "version": "0.0.2",
+  "homepage": "https://github.com/Retzu/game-thing",
+  "license": "GNU GPLv3",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -11,6 +11,7 @@
     "tests"
   ],
   "dependencies": {
-    "pixi": "~1.6.1"
+    "pixi": "~2.2.0",
+    "keydrown": "~1.1.3"
   }
 }
