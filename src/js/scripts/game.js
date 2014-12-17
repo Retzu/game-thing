@@ -33,7 +33,7 @@ function init(Background, Player, Enemy, Collectible){
         now = new Date();
         kd.tick();
 
-        fpsText.setText('' + Math.floor(1000 / dt) + ' / E:' + enemies.length + ' / C:' + collectibles.length);
+        fpsText.setText('FPS:' + Math.floor(1000 / dt) + ' / E:' + enemies.length + ' / C:' + collectibles.length);
 
         background.update(dt);
         player.update(dt);
@@ -83,7 +83,7 @@ function init(Background, Player, Enemy, Collectible){
     }
 
     function generateRandomCollectible() {
-        var randomX = Math.floor(Math.random() * (OPTIONS.stage.width - OPTIONS.sprites.collectible.width / 2) + OPTIONS.sprites.collectible.width / 2);
+        var randomX = Math.floor(Math.random() * (OPTIONS.stage.width - OPTIONS.sprites.collectible.width) + OPTIONS.sprites.collectible.width);
         var collectible = new Collectible(OPTIONS.sprites.collectible, randomX);
 
         collectibles.push(collectible);

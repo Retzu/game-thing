@@ -7,7 +7,9 @@ define ['entity'], (Entity) ->
             @position.y = OPTIONS.stage.height - 100
 
         moveLeft: =>
-            @position.x -= OPTIONS.playerSpeed * @speedFactor
+            if @position.x > OPTIONS.sprites.player.width / 2
+                @position.x -= OPTIONS.playerSpeed * @speedFactor
 
         moveRight: =>
-            @position.x += OPTIONS.playerSpeed * @speedFactor
+            if @position.x < OPTIONS.stage.width - (OPTIONS.sprites.player.width / 2)
+                @position.x += OPTIONS.playerSpeed * @speedFactor
