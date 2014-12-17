@@ -8,6 +8,8 @@ define ->
 	        @anchor.y = 0.5;
 	        @anchor.x = 0.5;
 
+	        @speedFactor = 1
 
-	    update: =>
-	    	"pass"
+
+	    update: (dt) =>
+	    	@speedFactor = 1000 / dt / 60

@@ -1,6 +1,7 @@
 var options = {
     scrollSpeed: 1.5,
     playerSpeed: 5,
+    entitySpeed: 2,
     stage: {
         width: 540,
         height: 860
@@ -17,13 +18,14 @@ var options = {
             height: 52
         },
         enemy: {
-            source: ""
-        },
-        projectile: {
-            source: ""
+            source: "img/enemy.png",
+            width: 50,
+            height: 50
         },
         collectible: {
-            source: ""
+            source: "img/collectible.png",
+            width: 50,
+            height: 50
         }
     }
 };
