@@ -1,2 +1,2 @@
-define ['moving-entity'], (MovingEntity) ->
+define ['movingEntity'], (MovingEntity) ->
     class Enemy extends MovingEntity

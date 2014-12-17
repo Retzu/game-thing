@@ -1,15 +1,15 @@
 define ['entity'], (Entity) ->
     class Player extends Entity
-        constructor: (@sprite) ->
+        constructor: (@sprite, @stageWidth, @stageHeight, @playerSpeed = 5) ->
             super @sprite
 
-            @position.x = OPTIONS.stage.width / 2
-            @position.y = OPTIONS.stage.height - 100
+            @position.x = @stageWidth / 2
+            @position.y = @stageHeight - 100
 
         moveLeft: =>
-            if @position.x > OPTIONS.sprites.player.width / 2
-                @position.x -= OPTIONS.playerSpeed * @speedFactor
+            if @position.x > @sprite.width / 2
+                @position.x -= @playerSpeed * @speedFactor
 
         moveRight: =>
-            if @position.x < OPTIONS.stage.width - (OPTIONS.sprites.player.width / 2)
-                @position.x += OPTIONS.playerSpeed * @speedFactor
+            if @position.x < @stageWidth - (@sprite.width / 2)
+                @position.x += @playerSpeed * @speedFactor

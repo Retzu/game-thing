@@ -12,6 +12,8 @@ define ->
 
 
         update: (dt) =>
+            # we need to adjust the speed which stuff moves
+            # if the game doesn't run at exactly 60 FPS
             @speedFactor = 1000 / dt / 60
 
 

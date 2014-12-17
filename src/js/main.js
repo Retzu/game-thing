@@ -1,7 +1,11 @@
 var options = {
-    scrollSpeed: 1.5,
+    debug: true,
+    gameSpeed: 1.3,
+    maxGameSpeed: 10,
     playerSpeed: 5,
-    entitySpeed: 2,
+    spawnRate: 1000,
+    minSpawnRate: 150,
+    increaseDifficulty: true,
     stage: {
         width: 540,
         height: 860
@@ -19,8 +23,8 @@ var options = {
         },
         enemy: {
             source: "img/enemy.png",
-            width: 50,
-            height: 50
+            width: 44,
+            height: 48
         },
         collectible: {
             source: "img/collectible.png",
@@ -30,10 +34,11 @@ var options = {
     }
 };
 
-window.OPTIONS = options;
-
 requirejs.config({
     baseUrl: 'js/scripts'
 });
 
-require(['game']);
+require(['game'], function(Game) {
+    var game = new Game('game', options);
+    game.run();
+});

@@ -1,6 +1,6 @@
 define ['entity'], (Entity) ->
     class MovingEntity extends Entity
-        constructor: (@sprite, startX) ->
+        constructor: (@sprite, startX, @entitySpeed = 2) ->
             super @sprite
             # start out of sight and with a given (random) x coord
             @position.y = -100
@@ -9,4 +9,4 @@ define ['entity'], (Entity) ->
         update: (dt) =>
             super dt
 
-            @position.y += OPTIONS.entitySpeed * @speedFactor
+            @position.y += @entitySpeed * @speedFactor
