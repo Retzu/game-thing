@@ -46,10 +46,6 @@ define ['background', 'player', 'enemy', 'collectible'], (Background, Player, En
 
 
         run: =>
-            # init @now for deltaT calculating
-            @now = new Date()
-            requestAnimFrame @render
-
             @spawnInterval = window.setInterval =>
                 @generateRandomEntity()
             , @spawnRate
@@ -58,10 +54,15 @@ define ['background', 'player', 'enemy', 'collectible'], (Background, Player, En
                 @levelInterval = window.setInterval =>
                     # increase the game's difficulty (speed) every x seconds
                     @increaseLevel()
-                , 5000
+                , @options.levelDuration
+
+            # init @now for deltaT calculating
+            @now = new Date()
+            requestAnimFrame @render
 
 
         increaseLevel: =>
+            @log 'asdf'
             if @gameSpeed * 1.33 < @options.maxGameSpeed
                 @gameSpeed *= 1.33
                 @level++
@@ -87,7 +88,7 @@ define ['background', 'player', 'enemy', 'collectible'], (Background, Player, En
             kd.tick()
 
             if @options.debug
-                @fpsText.setText 'FPS:' + Math.floor(1000 / dt) + " / E:#{@enemies.length} / C:#{@collectibles.length} / S:#{@score} / Stage:#{@stage.children.length}"
+                @fpsText.setText 'FPS:' + Math.floor(1000 / dt) + " / E:#{@enemies.length} / C:#{@collectibles.length} / S:#{@score} / Entities:#{@stage.children.length} / L:#{@level}"
 
             @background.update dt
             @player.update dt

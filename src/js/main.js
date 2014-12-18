@@ -6,6 +6,7 @@ var options = {
     spawnRate: 1000,
     minSpawnRate: 150,
     increaseDifficulty: true,
+    levelDuration: 5000,
     stage: {
         width: 540,
         height: 860
