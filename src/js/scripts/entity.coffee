@@ -1,8 +1,8 @@
 define ->
     class Entity extends PIXI.Sprite
-        constructor: (@sprite) ->
+        constructor: (sprite) ->
             texture = PIXI.Texture.fromImage sprite.source
-            super texture, @sprite.width, @sprite.height
+            super texture, sprite.width, sprite.height
 
             # Inherited from PIXI.Sprite. Center image to sprite
             @anchor.y = 0.5;

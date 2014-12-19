@@ -14,7 +14,7 @@ define ['background', 'player', 'enemy', 'collectible'], (Background, Player, En
 
             # create the background and player objects and add them to the game
             @background = new Background @options.sprites.background, @gameSpeed
-            @player = new Player @options.sprites.player, @options.stage.width, @options.stage.height, @options.playerSpeed
+            @player = new Player @options.sprites.player, @options.stage.width, @options.stage.height, @options.playerSpeed, @options.sprites.projectile, @options.projectileSpeed, @options.projectileCooldown
 
             @stage.addChild @background
             @stage.addChild @player
@@ -22,6 +22,9 @@ define ['background', 'player', 'enemy', 'collectible'], (Background, Player, En
             # control events for player moving
             kd.LEFT.down @player.moveLeft
             kd.RIGHT.down @player.moveRight
+            if @options.allowShooting
+                @player.setStage @stage
+                kd.SPACE.down @player.shoot
 
             # create arrays that will hold all enemies and collectibles
             @enemies = []
@@ -62,7 +65,6 @@ define ['background', 'player', 'enemy', 'collectible'], (Background, Player, En
 
 
         increaseLevel: =>
-            @log 'asdf'
             if @gameSpeed * 1.33 < @options.maxGameSpeed
                 @gameSpeed *= 1.33
                 @level++
@@ -93,8 +95,21 @@ define ['background', 'player', 'enemy', 'collectible'], (Background, Player, En
             @background.update dt
             @player.update dt
 
+            @player.projectiles.forEach (projectile) =>
+                projectile.update dt
+
+                # check every enemy if we hit it
+                @enemies.forEach (enemy) =>
+                    if enemy.isCollidingWith projectile
+                        @removeEnemy enemy
+                        @player.removeProjectile projectile
+
+                if projectile.y < 0
+                    @player.removeProjectile projectile
+
             @enemies.forEach (enemy) =>
                 enemy.update dt
+
                 if enemy.isCollidingWith @player
                     @isGameOver = true
 

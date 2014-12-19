@@ -7,6 +7,9 @@ var options = {
     minSpawnRate: 150,
     increaseDifficulty: true,
     levelDuration: 5000,
+    allowShooting: true,
+    projectileSpeed: 5,
+    projectileCooldown: 1000,
     stage: {
         width: 540,
         height: 860
@@ -18,7 +21,7 @@ var options = {
             height: 960
         },
         player: {
-            source: "img/player.png",
+           source: "img/player.png",
             width: 50,
             height: 52
         },
@@ -31,6 +34,11 @@ var options = {
             source: "img/collectible.png",
             width: 50,
             height: 50
+        },
+        projectile: {
+            source: "img/projectile.png",
+            width: 4,
+            height: 4
         }
     }
 };
