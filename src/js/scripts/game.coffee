@@ -1,6 +1,7 @@
 define ['background', 'player', 'enemy', 'collectible'], (Background, Player, Enemy, Collectible) ->
     class Game
         constructor: (containerId, @options) ->
+            @log @options
             # new stage, black background
             @stage = new PIXI.Stage 0x000000
 
